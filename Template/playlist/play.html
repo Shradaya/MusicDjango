@@ -1,0 +1,59 @@
+{% extends 'index.html' %}
+{% block content %}
+
+    <div class="videoClass">
+        {% if video.id in list_of_bought_videos or user.is_staff %}
+            <video id="my-video" class="video-js" controls preload="auto" width="1000" height="600" poster="{{MEDIA_URL}}{{ video.Thumbnail.url }}" data-setup="{}">
+            <source src="{{MEDIA_URL}}{{ video.Video.url }}" type="video/mp4" />
+            </video>
+            <br>
+        <div class="videoTitleDescription">
+            <h1>{{video.Title}}</h1>
+            <p>{{video.Description}}</p>
+        </div>
+
+
+        {% else %}
+            <a href="/videos/{{video.id}}"><img src="{{MEDIA_URL}}{{ video.Thumbnail.url }}" alt="Video Thumbnail" class="img-thumbnail-play" border="3">
+            <h1>Video Title: "{{video.Title}}"</h1>
+            <h3>Press the Button Below to Buy the video for Rs. {{video.Price}}</h3>
+            <hr>
+            <h1>Video Description:</h1>
+            <p>{{video.Description}}</p>
+<!-- esewa Payment -->
+    <form action="https://uat.esewa.com.np/epay/main" method="POST">
+    <input value="{{video.Price}}" name="tAmt" type="hidden">
+    <input value="{{video.Price}}" name="amt" type="hidden">
+    <input value="0" name="txAmt" type="hidden">
+    <input value="0" name="psc" type="hidden">
+    <input value="0" name="pdc" type="hidden">
+    <input value="EPAYTEST" name="scd" type="hidden">
+    <input value='{{orderid}}-{{video.id}}' name="pid" type="hidden">
+    <input value="http://127.0.0.1:8000/esewa-verify/" type="hidden" name="su">
+    <input value="{{request.build_absolute_uri}}" type="hidden" name="fu">
+    <input value="Buy" type="submit" class="buy-button">
+    </form>
+<!-- esewa payment end -->
+        {% endif %}
+
+</video>
+</div>
+
+
+<div class="videoRecommendation">
+<div class="col">
+{% for vid in videos %}
+<div class="row">
+<div class="vidrecdiv">
+  <a href="/videos/{{vid.id}}"><img src="{{MEDIA_URL}}{{ vid.Thumbnail.url }}" alt="Video Thumbnail" class="img-thumbnail-play" border="3">
+</div>
+<div class="vidrectitlediv">
+   <b>{{ vid.Title }}</b></a>
+</div>
+</div>
+<br>
+{% endfor %}
+</div>
+</div>
+
+{% endblock %}

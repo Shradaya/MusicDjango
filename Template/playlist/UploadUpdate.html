@@ -1,0 +1,52 @@
+{% extends "index.html"  %}
+
+{% block content %}
+{% load static %}
+<div id="videoUpload" class="videoUpload">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 offset-md-3 ">
+        <center><h1 class="videoUploadHead">Video upload</h1>
+          {% load widget_tweaks %}
+            <form method="POST" enctype="multipart/form-data" >
+              {% csrf_token %}
+              {% for field in form.visible_fields %}
+                <div class="form-group">
+                  {{ field.label_tag }}
+                  {% render_field field class="form-control" %}
+                  {% if field.help_text %}
+                    <small class="form-text text-muted">{{ field.help_text }}</small>
+                  {% endif %}
+                  {% if field.errors %}
+                  <div class="alert alert-danger">
+                   {{ field.errors }}
+                  </div>
+                {% endif %}
+                </div>
+              {% endfor %}
+              <input type="submit" class="btn btn-primary" value="upload">
+            </form>
+          </center>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!--{% if messages %}
+    {% for message in messages %}
+    <div class="FormResponseMessage">
+      {{ message }}
+    </div>
+    {% endfor %}
+{% endif %}
+<div class="admin-div">
+<form method="POST" class="post-form" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" >Upload</button>
+    </form>
+<br>
+
+</div>-->
+
+{% endblock %}

@@ -1,0 +1,31 @@
+<form method='POST' action="." enctype="multipart/form-data">
+  {% csrf_token %}
+  <div class='sign'>
+  {% for field in form.visible_fields %}
+        {{ field.label_tag }}
+          {% if field.errors %}
+              {% for error in field.errors %}
+                {{ error }}
+              {% endfor %}
+          {% endif %}
+          {{ field }}
+          {% if field.help_text %}
+            <br />{{ field.help_text }}
+          {% endif %}
+    {% endfor %}
+  <br>
+   {% if form.textinup == "Sign Up"%}
+    <button type='submit' class='{{ btn_class }} submit'>
+    {% if submit_btn %}
+     {{ submit_btn }}
+     {% else %}
+     {{form.textinup}}
+     {% endif %}
+    </button><br>
+    {% else %}
+    <button type='submit' class='{{ btn_class }} submit'>{% if submit_btn %} {{ submit_btn }} {% else %}{{form.textinup}} {% endif %}</button><br>
+   {% endif %}
+   <a href={{form.link}}>{{form.text}}</a>
+
+    </div>
+</form>

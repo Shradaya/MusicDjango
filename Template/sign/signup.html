@@ -1,0 +1,33 @@
+{% extends "index.html"  %}
+
+{% block content %}
+{% load static %}
+       <div id="signup" class="sign">
+         <div class="container">
+            <div class="row">
+               <div class="col-md-6 offset-md-3 ">
+                  <form class="main_form_sign" method="POST" action='#'>
+                     {% csrf_token %}
+                     <div class="row">
+                        <div class="col-sm-12">
+                           <input class="signiu" placeholder="Email" type="text" name="Email">
+                        </div>
+                        <div class="col-sm-12">
+                           <input class="signiu" placeholder="UserName" type="text" name="Name">
+                        </div>
+                        <div class="col-sm-12">
+                           <input class="signiu" placeholder="Password" type="Password" name="Password">
+                        </div>
+                        <div class="col-sm-3">
+                           <a href="/sign/">Sign In</a>
+                        </div>
+                        <div class="col-sm-12">
+                           <button class="submit">Sign Up</button>
+                        </div>
+                     </div>
+                  </form>
+               </div>
+            </div>
+         </div>
+      </div>
+{% endblock %}

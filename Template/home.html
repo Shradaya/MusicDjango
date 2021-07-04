@@ -1,0 +1,166 @@
+{% extends "index.html"  %}
+
+{% block content %}
+{% load static %}
+       <section class="banner_main">
+         <div class="container">
+            <div class="row d_flex">
+               <div class="col-md-5">
+                  <div class="text-bg">
+                     <h1>The Record<br>House</h1>
+                     <span>"Music in the soul can be heard by the universe"</span>
+                     <p>The Record house is a recording studio, where you can record your
+                     new songs and creations in the best way possible.</p>
+                  </div>
+               </div>
+               <div class="col-md-7">
+                  <div class="text-img">
+                     <figure><img src="{% static 'cjs/images/img.png' %}" /></figure>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </section>
+      <!--<div id="" class="hosting">
+         <div class="container">
+            <div class="row">
+               <div class="col-md-12">
+                  <div class="titlepage">
+                     <h2>What’s New In Record House</h2>
+                  </div>
+               </div>
+            </div>
+            <div class="row">
+               <div class="col-md-12">
+                  <div class="web_hosting">
+                     <figure><img  src="{% static 'cjs/images/web.jpg' %}" alt="#"/></figure>
+                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate</p>
+                     <a href="#">Read more</a>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>-->
+      <!-- end Hosting -->
+      <!-- Services  -->
+      <div id="service" class="Services">
+         <div class="container">
+            <div class="row">
+               <div class="col-md-12">
+                  <div class="titlepage">
+                     <h2>Services Provided</h2>
+
+                  </div>
+                  <br>
+               </div>
+            </div>
+            <div class="row">
+               <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                  <div class="Services-box">
+                     <i><img src="{% static 'cjs/images/videography.png' %}" alt="#" /></i>
+                     <h3>Videography</h3>
+                     <p>We have skilled videographers and editors to come up with the perfect final video product.</p>
+                  </div>
+               </div>
+               <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                  <div class="Services-box">
+                     <i><img src="{% static 'cjs/images/music.png' %}" alt="#" /></i>
+                     <h3>Music Composition</h3>
+                     <p>Don't have music for your lyrics? It's a perfect place to find the perfect music.</p>
+                  </div>
+               </div>
+               <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                  <div class="Services-box">
+                     <i><img src="{% static 'cjs/images/sound.png' %}" alt="#" /></i>
+                     <h3>Voice Recording</h3>
+                     <p>We have high standard recording studio to record voices in the clearest form.</p>
+                  </div>
+               </div>
+               <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                  <div class="Services-box">
+                     <i><img src="{% static 'cjs/images/teach.png' %}" alt="#" /></i>
+                     <h3>Teach</h3>
+                     <p>We have the resources to teach interested candidates to sing and play instruments.</p>
+                  </div>
+               </div>
+               <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                  <div class="Services-box">
+                     <i><img src="{% static 'cjs/images/writing.png' %}" alt="#" /></i>
+                     <h3>Lyrics Composition</h3>
+                     <p>With regards to scenario the lyrics has to be created, and its possible in Record House.</p>
+                  </div>
+               </div>
+               <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                  <div class="Services-box">
+                     <i><img src="{% static 'cjs/images/instrument.png' %}" alt="#" /></i>
+                     <h3>Import Instruments</h3>
+                     <p>Specify us the instrument you want and we will make sure to get it to you.</p>
+                  </div>
+         </div>
+      </div>
+
+
+         <div id="contact" class="contactStart">
+            <div class="container">
+               <div class="row">
+                  <div class="col-md-10 offset-md-1">
+                     <div class="cont">
+                        <h3>Contact now</h3>
+                        <span>Create your own Songs and Music videos.</span>
+                        <p>The music is not in the notes, but in the silence in between.
+                        </p>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+
+      <!-- end contact -->
+
+            <!-- contact -->
+      {% if user.is_staff %}
+      <div class="messageDIV">
+      <H1> Recent Messages </H1>
+        {% for m in msg %}
+         <h3>{{ m.FullName }}</h3>
+         <h6>{{ m.Email }} -- {{ m.Date }}</h6>
+         <p>{{ m.Message }}</p><br>
+      {% endfor %}
+      </div>
+      {% else %}
+
+      <div class="contact">
+         <div class="container">
+            <div class="row">
+               <div class="col-md-6 offset-md-3 ">
+                  <center>
+                     {% load widget_tweaks %}
+                     <form method="POST">
+                     {% csrf_token %}
+                     {% for field in form.visible_fields %}
+                        <div class="form-group">
+                           {{ field.label_tag }}
+                           {% render_field field class="form-control" %}
+                           {% if field.help_text %}
+                              <small class="form-text text-muted">{{ field.help_text }}</small>
+                           {% endif %}
+                        </div>
+                     {% endfor %}
+                     <button type="Submit" class="btn btn-primary">Submit</button>
+                     {% if messages %}
+                        {% for message in messages %}
+                        <div class="FormResponseMessage">
+                           {{ message }}
+                        </div>
+                        {% endfor %}
+                     {% endif %}
+                     </form>
+                  </center>
+               </div>
+            </div>
+         </div>
+      </div>
+      {% endif %}
+
+
+{% endblock %}

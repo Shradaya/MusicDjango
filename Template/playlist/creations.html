@@ -1,0 +1,54 @@
+
+{% extends "index.html" %}
+{% block content %}
+  <div class="search">
+    <form action="{% url 'search' %}">
+        <input type="text" placeholder="Search for videos.." name="q" id="q">
+    </form>
+   {% if user.is_staff %}
+    <a href="/videos/upload/"><input type="button" value="+ Add Video" class="add-button"></a>
+    {% endif %}
+    </div>
+  {% load static %}
+  {% if messages %}
+    {% for message in messages %}
+    <div class="FormResponseMessage">
+      {{ message }}
+    </div>
+    {% endfor %}
+  {% endif %}
+
+      <div id="service" class="video_list">
+         <div class="container">
+            <div class="row">
+                {% for vid in videos %}
+                <div class="col-md-3">
+                  <div class="titlepage">
+                     <img src="{{MEDIA_URL}}{{ vid.Thumbnail.url }}" alt="Video Thumbnail" class="img-thumbnail" >
+                    <div class="row d-flex justify-content-center text-center">
+                    <b class="video_title">{{ vid.Title }}</b>
+                    </div>
+                    {% if vid.id in list_of_bought_videos %}
+                    <br>
+                    <a href="/videos/{{vid.id}}"><input type="button" value="Play"  class="play-button"></a>
+                    {% elif user.is_staff %}
+                    <a href="/videos/{{vid.id}}"><input type="button" value="Play"  class="play-button"></a>
+                    <a href="/videos/update/{{vid.id}}"><input type="button" value="Edit"  class="Edit-button"></a>
+                    <a href="/videos/delete/{{vid.id}}"><input type="button" value="Delete"  class="Delete-button"></a>
+                    {% elif vid.id not in list_of_bought_videos %}
+                      {% if user.is_authenticated %}
+                      <p>Rs. {{vid.Price}}<br></p>
+                      <a href="/videos/{{vid.id}}"><input type="button" value="Buy" class="buy-button"></a>
+                      {% else %}
+                      <p>Rs. {{vid.Price}}<br></p>
+                      <a href="/signin/"><input type="button" value="Buy" class="buy-button"></a>
+                      {% endif %}
+                    {% endif %}
+
+                  </div>
+               </div>
+               {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
